@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espessura de livro — quantas páginas cada grafo precisa</title>
+<meta name="description" content="A espessura de livro varrida por todas as ordens do lombo: no grafo completo toda ordem &#233; &#243;tima, e no ciclo de 7 s&#243; uma em 360 serve. A f&#243;rmula ceil(n/2) falha no K3.">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header>
+  <h1>Espessura de livro</h1>
+  <p>Fure os vértices do grafo numa espiral, todos numa linha: é o <strong>lombo</strong> do livro. Cada aresta vai numa <strong>página</strong>, que é uma meia-folha saindo do lombo. Duas arestas na mesma página não podem se cruzar. Quantas páginas bastam?</p>
+  <p>A pergunta tem uma armadilha: a resposta é o mínimo sobre <em>todas</em> as ordens possíveis do lombo. Não basta colorir bem um desenho; é preciso escolher a ordem certa também.</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Veja</h2>
+  <div class="painel">
+    <div class="linha" style="margin-bottom:16px">
+      <select id="grafo" aria-label="grafo"></select>
+      <button id="melhor" type="button">Melhor lombo</button>
+      <button id="pior" type="button">Pior lombo</button>
+      <button id="obvia" type="button">Ordem 0,1,2…</button>
+      <button id="sortear" type="button">Sortear</button>
+    </div>
+    <div id="desenho"></div>
+    <p class="fraco">lombo: <span id="lombo"></span></p>
+    <p id="texto"></p>
+  </div>
+</section>
+
+<section>
+  <h2>O que a varredura respondeu</h2>
+
+  <h3>O lombo às vezes é tudo, às vezes não é nada</h3>
+  <p>No <code>K_8</code> as <strong>2.520</strong> ordens do lombo dão todas o mesmo resultado: 4 páginas. O melhor lombo e o pior lombo são o mesmo número, e escolher não adianta nada. O mesmo vale para todos os completos medidos e para o <code>K(3,3)</code>.</p>
+  <p>No ciclo de 7 vértices é o oposto: <strong>uma</strong> ordem em 360 serve — 0,28% — e é a ordem do próprio ciclo. Errar o lombo ali custa até 4 páginas onde 1 bastava.</p>
+
+  <h3>A fórmula famosa falha no caso primitivo</h3>
+  <p>A espessura de <code>K_n</code> é ⌈n/2⌉. Medido, isso acerta de <code>K_4</code> a <code>K_8</code>, certinho. E erra no <code>K_3</code>: a fórmula pede 2 páginas e o triângulo cabe em <strong>1</strong>, porque as três arestas compartilham pontas duas a duas e nenhuma cruza nenhuma.</p>
+
+  <h3>A cota de Euler é exata só onde o grafo é cheio</h3>
+  <p>Um livro de <em>k</em> páginas com <em>n</em> vértices desenha no máximo <code>k(n−3) + n</code> arestas, porque cada página é um grafo externoplanar sobre o mesmo lombo. Virando a conta, <code>k ≥ (m − n)/(n − 3)</code>.</p>
+  <p>Essa cota é <strong>exata em 6 dos 13</strong> grafos medidos, e nos completos ela não é só exata: ela <em>é</em> a fórmula ⌈n/2⌉, porque <code>(m−n)/(n−3)</code> com <code>m = n(n−1)/2</code> dá <code>n/2</code> direto. Nos outros 7 ela fica curta, e no <code>K(3,3)</code> e no Petersen erra por 2 páginas inteiras.</p>
+
+  <h3>A ordem óbvia é uma armadilha</h3>
+  <p>Numerar os vértices 0, 1, 2, … e usar essa ordem custa <strong>4 páginas no cubo Q3</strong>, onde 2 bastam, e <strong>5 no Petersen</strong>, onde 3 bastam. Nos dois casos ela dobra ou quase dobra a resposta. No ciclo ela já é ótima — porque ali ela <em>é</em> o ciclo.</p>
+</section>
+
+<section>
+  <h2>Os três juízes</h2>
+  <p><strong>A cota de Euler</strong> é uma conta fechada, sem busca nenhuma, e é cota inferior: a varredura tem de respeitá-la sempre, e respeita nas 13 linhas.</p>
+  <p><strong>A força bruta</strong> refaz tudo distribuindo aresta por aresta nas páginas, sem grafo de conflito, sem poda de simetria de cor e sem ordenar por conflito. Mesma resposta, pagando até 23,99× mais nós.</p>
+  <p><strong>O desenho</strong> decide "cabe em uma página" procurando uma ordem <em>sem cruzamento nenhum</em>, que é a caracterização conhecida de grafo externoplanar. Bate com o motor de páginas nas 13 linhas, por um caminho que não passa por coloração.</p>
+</section>
+
+<section>
+  <h2>Como rodar</h2>
+  <p>Node 20 ou mais novo. Sem dependência nenhuma.</p>
+  <pre><code>npm test
+npm run medir
+node ferramentas/medidor.js raridade</code></pre>
+  <p>O repositório está em <a href="https://github.com/condeDeveloper/espessura-de-livro">github.com/condeDeveloper/espessura-de-livro</a>.</p>
+</section>
+
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
