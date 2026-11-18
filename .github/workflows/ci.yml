@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  testes:
+    name: testes (${{ matrix.so }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.so }}
+    strategy:
+      fail-fast: false
+      matrix:
+        so: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['20', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # O `shell: bash` nao e enfeite: no PowerShell do runner o glob
+      # `testes/*.test.js` chega ao node como texto literal e ele procura um
+      # arquivo com asterisco no nome.
+      - name: as regras e os numeros do README
+        shell: bash
+        run: node --test testes/nucleo.test.js testes/medidas.test.js
+      - name: o Petersen e a grade, ordem por ordem
+        shell: bash
+        run: node --test testes/pesados.test.js
+
+  medidas:
+    name: tabelas do README
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: a espessura de cada grafo
+        run: node ferramentas/medidor.js espessuras
+      - name: a cota de Euler contra a medida
+        run: node ferramentas/medidor.js cota
+      - name: a formula do grafo completo e onde ela falha
+        run: node ferramentas/medidor.js completo
+      - name: quao raro e acertar o lombo
+        run: node ferramentas/medidor.js raridade
+      - name: o melhor lombo contra o pior
+        run: node ferramentas/medidor.js lombo
+      - name: o motor contra a forca bruta
+        run: node ferramentas/medidor.js duelo
+      - name: quem cabe em uma pagina so
+        run: node ferramentas/medidor.js uma
+      - name: quanto do teto de arestas cada grafo usa
+        run: node ferramentas/medidor.js ocupacao
