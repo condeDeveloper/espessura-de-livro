@@ -1,0 +1,13 @@
+{
+  "name": "espessura-de-livro",
+  "version": "1.0.0",
+  "description": "A espessura de livro varrida por todas as ordens do lombo: quantas paginas cada grafo precisa e quao raras sao as ordens que atingem o minimo",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test testes/*.test.js",
+    "medir": "node ferramentas/medidor.js"
+  }
+}
