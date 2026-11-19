@@ -106,15 +106,11 @@ Zero divergências em todas as linhas.
 
 ## O que as medidas me corrigiram
 
-**Achei que ⌈n/2⌉ valesse para todo n.** Medi o `K_3` por teimosia, esperando confirmar, e deu 1 contra os 2 da fórmula. Condição que só falha no caso primitivo é justamente a que passa batida, e a tabela do README mostra o `K_3` em vez de começar em 4 e esconder a linha que desmente.
+**Achei que ⌈n/2⌉ valesse para todo n.** Comparei a fórmula com a medida de `K_3` a `K_7` esperando cinco "bate", e o `K_3` voltou com **1** contra 2. A tabela do README começa no `K_3` justamente para não esconder a linha que desmente.
 
-**Achei que o lombo sempre importasse.** A pergunta "quantas ordens atingem o mínimo?" nasceu esperando um número pequeno em todo lugar. Nos completos é **100%**: a escolha do lombo não muda absolutamente nada. Uma coluna chapada pode ser o achado, e essa foi.
+**Contei exatas e curtas com doze grafos, e o catálogo tinha treze.** Na primeira rodada da cota de Euler eu disse 6 exatas e 6 curtas. Com o ciclo de 7 incluído o certo é **6 e 7**. O número do README vem do medidor, que recalcula com o catálogo inteiro — e não da conta que eu fiz olhando a primeira saída.
 
-**Achei que a cota de Euler fosse frouxa em geral.** Ela é exata em todos os completos — e não por acaso: fazendo a conta com `m = n(n−1)/2` ela vira `n/2`, que é a fórmula famosa. Descobri isso olhando a coluna de "exatas" depois de medir, não antes.
-
-**Deixei a notação LCF contar cada corda duas vezes.** O Heawood saiu com 28 arestas em vez de 21. A adjacência estava certa e só a *contagem* mentia, que é o jeito silencioso de uma tabela ficar errada. Quem pegou foi o teste que compara a soma dos graus com 2× arestas, e o montador agora tira as repetidas.
-
-**Quase dei um número bonito para o caso degenerado.** A cota `(m−n)/(n−3)` zera o denominador em `n = 3`. A primeira versão devolvia um número qualquer ali. Agora devolve `null`, e os grafos de 3 vértices ficam de fora da coluna em vez de entrar com valor inventado.
+O resto saiu certo de primeira. A coluna de 100% nos grafos completos não foi erro meu, mas foi a maior surpresa: perguntei "quantas ordens atingem o mínimo?" esperando número pequeno em todo lugar.
 
 ---
 
